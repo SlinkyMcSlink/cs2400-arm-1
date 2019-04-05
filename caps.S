@@ -18,20 +18,29 @@ loop
 			LDR		R3, [R0, R1]   ; Loads the data from the address held in R0 plus the offset into R3
 			MOV		R1, #4         ; Changes offest to 4
 			CMP		R3, #96        ; compares R3 to 96
+			BLT		mid
+pause
 			BGT		capsIt         ; If great branch to Caps It
 			ADD		R4, R4, #4     ; adds 4 to the array counter
 			CMP		R4, #48        ; compare to array counter
-			BLT		alreadyCaps    ; if less branch to alreadyCaps
+			BLT		alreadyCaps    ; if less branch to add count
 			B		exit           ; else branch to exit ending loop
 			
 capsIt
 			SUB		R3, R3, #32    ; subtract 32, capsing the letter
 			STR		R3, [R0]		; stores result to memory
-			ADD		R2, R2, #1     ; adds to caps counter
-			ADD		R0, R0, R1     ; adds offset to address held at R0 foing to next element in array
+			ADD		R0, R0, R1     ; adds offset to address held at R0 going to next element in array
 			ADD		R4, R4, #4     ; adds 4 to array counter (array size)
 			B		loop			; go back to loop
 			
+capCount
+			ADD		R2, R2, #1     ; Updates counter
+			B		pause		; Returns to pause
+			
+mid
+			CMP		R3, #64
+			BGT		capCount
+			B		pause
 alreadyCaps
 			STR		R3, [R0]       ; stores current in memory
 			ADD		R0, R0, R1     ; adds offset to addres in R0
@@ -39,4 +48,5 @@ alreadyCaps
 			
 			
 exit
+			STR		R2, [R0]
 			END		; End program
