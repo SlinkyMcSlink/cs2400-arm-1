@@ -38,9 +38,9 @@ capCount
 			B		pause		; Returns to pause
 			
 mid
-			CMP		R3, #64
-			BGT		capCount
-			B		pause
+			CMP		R3, #64		; Checks if letter
+			BGT		capCount		; if letter, goes to capCount
+			B		pause		; else, back to loop
 alreadyCaps
 			STR		R3, [R0]       ; stores current in memory
 			ADD		R0, R0, R1     ; adds offset to addres in R0
@@ -48,5 +48,5 @@ alreadyCaps
 			
 			
 exit
-			STR		R2, [R0]
-			END		; End program
+			STR		R2, [R0]		; Stores 
+			END					; End program
