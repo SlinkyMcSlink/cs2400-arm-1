@@ -12,3 +12,37 @@
 numbers	DCD		0b1100101010010001, 0b1111010101000011
 result	FILL		4
 carry	FILL		4
+		
+		ADR		R0, numbers         ; Put the address of the first number in R0
+		MOV		R1, #0             	; Offset
+		LDR		R2, [R0, R1]  	     ; Loads multicand B
+		MOV		R1, #4	   		; Changes address in R0 to point to second number
+		LDR		R3, [R0, R1]  		; Loads Q
+		
+		MOV		R4, #0        		; Accumulator
+		MOV		R5, #1        		; Mask
+		MOV		R6, #16      		; num of bits used
+		MOV		R7, #0
+		MOV		R8, #1
+		
+		
+mainLoop
+		AND		R7, R3, R5    		; compares Last bit of Q and 1
+		CMP		R7, #1        		; if 1
+		BEQ		accum	   		; branch to a = a + b
+pause
+		MOV		R2, R2, LSL #1      ; shift b left
+		MOV		R3, R3, LSR #1		; shift q right
+		SUB		R6, R6, #1          ; subtract from bit counter
+		CMP		R6, #0			; If bitcounter is 0:
+		BEQ		exit				; branch to exit
+		B		mainLoop			; back to beginng
+		
+exit
+		STR		R4, [R0, #8]
+		STR		R8, [R0, #12]
+		END		; Ends program
+		
+accum
+		ADD		R4, R4, R2         	; adds b to a
+		B		pause		     ; back to pause
