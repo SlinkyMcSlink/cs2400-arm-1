@@ -26,6 +26,6 @@ loop
 		
 endit
 		ADR		R3, result
-		ADR		R3, carry
 		STR		R0, [R3]
+		ADD		R3, R3, #4
 		STR		R1, [R3]
