@@ -22,7 +22,7 @@ carry	FILL		4
 		MOV		R5, #1        		; Mask
 		MOV		R6, #32      		; num of bits used
 		MOV		R7, #0
-		MOV		R8, #1
+		MOV		R8, #0
 		
 		
 mainLoop
@@ -43,5 +43,7 @@ exit
 		END		; Ends program
 		
 accum
-		ADD		R4, R4, R2         	; adds b to a
+		ADDS		R4, R4, R2         	; adds b to a
+		ADC		R8, R8, #0
+		MOV		R8, R8, LSL #1
 		B		pause		     ; back to pause
